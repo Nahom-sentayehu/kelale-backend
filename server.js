@@ -19,11 +19,15 @@ app.use((req, res, next) => {
 });
 
 // ---------- MongoDB Connection ----------
-mongoose
-  .connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/kelale")
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB error:", err));
+const mongoURI = process.env.MONGO_URI;
 
+mongoose
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected successfully!"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // ---------- Import Routes ----------
 const userRoutes = require("./routes/userRoutes");
@@ -31,10 +35,7 @@ const authRoutes = require("./routes/authRoutes");
 const busRoutes = require("./routes/buses");
 const bookingRoutes = require("./routes/bookingRoutes");
 const companyRoutes = require("./routes/companies");
-
-// FIXED: Use routes/index.js (your real route file)
-const routeRoutes = require("./routes");
-
+const routeRoutes = require("./routes"); // Index file for routes
 const scheduleRoutes = require("./routes/schedules");
 const ratingRoutes = require("./routes/ratings");
 
